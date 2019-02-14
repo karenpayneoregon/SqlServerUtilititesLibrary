@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceProcess;
 using System.Threading.Tasks;
 
 namespace DataLibrary
@@ -187,6 +188,35 @@ namespace DataLibrary
             }
 
             return success;
+        }
+        /// <summary>
+        /// Determine if a specific service is running e.g.
+        /// SQL-Server: MSSQLServer
+        /// MSSQLSERVER
+        /// SQL Server Agent: SQLServerAgent
+        /// SQL Server Analysis Services: MSSQLServerOLAPService
+        /// SQL Server Browser: SQLBrowser
+        /// </summary>
+        /// <param name="serviceName">Service name to find</param>
+        /// <returns>True if found, false if not</returns>
+        public static bool ISWindowsServiceInstalled(string serviceName)
+        {
+            var isRunning = false;
+            var services = ServiceController.GetServices().Where(sc => sc.ServiceName.Contains("SQL")).ToList();
+            
+            foreach (var service in services)
+            {
+                if (service.ServiceName == serviceName)
+                {
+                    if (service.Status == ServiceControllerStatus.Running)
+                    {
+                        isRunning = true;
+                    }
+
+                }
+            }
+            //return services.Any(service => service.ServiceName == serviceName);
+            return isRunning;
         }
     }
 }
