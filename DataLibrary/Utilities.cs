@@ -199,7 +199,7 @@ namespace DataLibrary
         /// </summary>
         /// <param name="serviceName">Service name to find</param>
         /// <returns>True if found, false if not</returns>
-        public static bool ISWindowsServiceInstalled(string serviceName)
+        public static bool ISWindowsServiceRunning(string serviceName)
         {
             var isRunning = false;
             var services = ServiceController.GetServices().Where(sc => sc.ServiceName.Contains("SQL")).ToList();
