@@ -1,5 +1,11 @@
 ### SQL-Server functions 
 
+![img](assets/figure1.png)
+
+# .NET Core
+
+Not compatible, .NET Core 5 missing a package.
+
 This library contains methods to do the following.
 
 - if SQL-Server is available.

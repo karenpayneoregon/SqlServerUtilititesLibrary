@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Sql;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 
@@ -218,5 +220,11 @@ namespace DataLibrary
             //return services.Any(service => service.ServiceName == serviceName);
             return isRunning;
         }
+
+        public static List<Service> SqlServices() 
+            => ServiceController.GetServices().Where(sc => sc.ServiceName.Contains("SQL")).ToList()
+                .Where(service => service.Status == ServiceControllerStatus.Running)
+                .Select(service => new Service() {DisplayName = service.DisplayName, ServiceName = service.ServiceName})
+                .ToList();
     }
 }
